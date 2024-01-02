@@ -10,14 +10,12 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("First step") {
+        stage("docker image build") {
             steps {
-                sh 'ssh root@ermakub1 \'hostname\''
-            }
-        }
-        stage("Second step") {
-            steps {
-                sh 'ssh root@ermakub1 \'uptime\''
+                echo "==================== start building image ====================="
+		dir ('docker'){
+			sh 'docker build . '
+		}
             }
         }
     }
