@@ -12,12 +12,30 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("docker image build") {
+        stage("docker login") {
             steps {
-                echo "==================== start building image ====================="
-		dir ('docker'){
-			sh 'docker build -t artemka222/toolbox:latest . '
+                echo "==================== docker login ====================="
+		withCredentials ([usernamePassword(credentialsId: 'dockerhub_artemka222', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]){
+			sh """
+			docker login -u $USERNAME -p $PASSWORD
+			"""
 		}
+            }
+        }
+	stage("docker image build") {
+            steps {
+                echo "==================== start building image ===============>
+                dir ('docker'){
+                        sh 'docker build -t artemka222/toolbox:latest . '
+                }
+            }
+        }
+	stage("docker push") {
+            steps {
+                echo "==================== start pushing image ===============>
+                sh '''
+		docker push artemka222/toolbox:latest
+		'''
             }
         }
     }
