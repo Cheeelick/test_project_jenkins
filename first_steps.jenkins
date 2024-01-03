@@ -25,7 +25,7 @@ pipeline {
         }
 	stage("docker image build") {
             steps {
-                echo "==================== start building image ===============>
+                echo "==================== start building image ==============="
                 dir ('docker'){
                         sh 'docker build -t artemka222/toolbox:latest . '
                 }
@@ -33,7 +33,7 @@ pipeline {
         }
 	stage("docker push") {
             steps {
-                echo "==================== start pushing image ===============>
+                echo "==================== start pushing image ==============="
                 sh '''
 		docker push artemka222/toolbox:latest
 		'''
